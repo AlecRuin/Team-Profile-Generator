@@ -199,7 +199,7 @@ inquirer
                                             <p class="card-text py-2">ID: ${CollectedInfo[x].getId()}</p>
                                             <p class="card-text py-2">Email: <a href="mailto: ${CollectedInfo[x].getEmail()}">${CollectedInfo[x].getEmail()}</a></p>
                                             ${(CollectedInfo[x].officeNumber)? `<p class='card-text py-2'>Office Number: ${CollectedInfo[x].officeNumber}</p>`:""}
-                                            ${(CollectedInfo[x].github)? `<p class='card-text py-2'>Github: <a href="${CollectedInfo[x].getGithub()}" target="_blank">${CollectedInfo[x].getGithub()}</a></p>`:""}
+                                            ${(CollectedInfo[x].github)? `<p class='card-text py-2'>Github: <a href="https://${CollectedInfo[x].getGithub()}" target="_blank">${CollectedInfo[x].getGithub()}</a></p>`:""}
                                             ${(CollectedInfo[x].school)? `<p class='card-text py-2'>School of graduation: ${CollectedInfo[x].getSchool()}</p>`:""}
                                         </div>
                                     </div>
