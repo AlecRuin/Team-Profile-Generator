@@ -89,7 +89,7 @@ var HTMLHead=`
         </div>
         <div class="card-body">
             <p class="card-text py-2">ID:</p>
-            <p class="card-text py-2">Email:</p>
+            <p class="card-text py-2">Email:<a href="">email</a></p>
             <p class="card-text py-2">Office Number:</p>
             <p class="card-text py-2">School:</p>
             <p class="card-text py-2">Github:</p>
@@ -97,16 +97,12 @@ var HTMLHead=`
     </div>
 </div>*/
 var HTMLTail = `
-                </div>
             </div>
         </div>
     </body>
 </html>
 `
-/*var FinishedHtml=`<html></html>`
-fs.writeFile("./Distribution/EmployeeChart.html",FinishedHtml,(err)=>{
-    err ? console.error(err) : console.log(`HTML CREATED`)
-})*/
+
 var CollectedInfo=[]
 inquirer
     .prompt([
@@ -204,7 +200,34 @@ inquirer
                             })
                     }else{
                         //Rest of code
-                        console.log(CollectedInfo)
+                        // for (var x=0;x<CollectedInfo.length;x++){
+
+                        //     HTMLHead.concat()
+                        // }
+                        var HTMLBody=``
+                        for (var x=0;x<CollectedInfo.length;x++){
+                            HTMLBody=HTMLBody+`
+                                <div class="col">
+                                    <div class="card shadow-sm">
+                                        <div style="height:80px" class="d-flex justify-content-between bg-primary text-white fw-bold fs-6">
+                                            <div class="p-4">${(CollectedInfo[x].getRole()=="Manager")? "☕" : (CollectedInfo[x].getRole()=="Engineer") ? "🕶️":"👔"}</div>
+                                            <div class="p-4">${CollectedInfo[x].getName()}</div>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text py-2">ID: ${CollectedInfo[x].getId()}</p>
+                                            <p class="card-text py-2">Email: <a href="mailto: ${CollectedInfo[x].getEmail()}">${CollectedInfo[x].getEmail()}</a></p>
+                                            ${(CollectedInfo[x].officeNumber)? `<p class='card-text py-2'>Office Number: ${CollectedInfo[x].officeNumber}</p>`:""}
+                                            ${(CollectedInfo[x].github)? `<p class='card-text py-2'>Github: <a href="${CollectedInfo[x].getGithub()}" target="_blank">${CollectedInfo[x].getGithub()}</a></p>`:""}
+                                            ${(CollectedInfo[x].school)? `<p class='card-text py-2'>School of graduation: ${CollectedInfo[x].getSchool()}</p>`:""}
+                                        </div>
+                                    </div>
+                                </div>
+                            `
+                        }
+                        var FinishedHtml=HTMLHead+HTMLBody+HTMLTail
+                        fs.writeFile("./Distribution/EmployeeChart.html",FinishedHtml,(err)=>{
+                            err ? console.error(err) : console.log(`HTML CREATED`)
+                        })
                     }
                 })
                 .catch((err)=>{
