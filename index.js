@@ -1,6 +1,8 @@
+////////////////// IMPORT DEPENDANCIES //////////////////
 const fs = require("fs")
 const inquirer = require("inquirer")
-class Employee{
+////////////////// CREATE CLASSES //////////////////
+class Employee{//Base employee class that allows users to create employees based off of this structure
     constructor(name,id,email){
         this.name=name
         this.id=id
@@ -52,10 +54,8 @@ class Intern extends Employee {
         return "Intern"
     }
 }
-//Create head of HTML
-//create inquirer logic
-//create function the loops through all created employees and adds them to end of string
-//stitch everything into string and fs
+////////////////// VARIABLES //////////////////
+//The beginning part of the HTML
 var HTMLHead=`
 <!DOCTYPE html>
 <html lang="en">
@@ -81,31 +81,17 @@ var HTMLHead=`
             <div style="height:80px"></div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 `
-/*<div class="col">
-    <div class="card shadow-sm">
-        <div style="height:80px" class="d-flex justify-content-between bg-primary text-white fw-bold fs-6">
-            <div class="p-4">Symbol of employee </div>
-            <div class="p-4">Name of emplyee  </div>
-        </div>
-        <div class="card-body">
-            <p class="card-text py-2">ID:</p>
-            <p class="card-text py-2">Email:<a href="">email</a></p>
-            <p class="card-text py-2">Office Number:</p>
-            <p class="card-text py-2">School:</p>
-            <p class="card-text py-2">Github:</p>
-        </div>
-    </div>
-</div>*/
+//The ending part of the html
 var HTMLTail = `
             </div>
         </div>
     </body>
 </html>
 `
-
 var CollectedInfo=[]
+////////////////// QUESTIONAIRE //////////////////
 inquirer
-    .prompt([
+    .prompt([//Questions for the manager
         {
             name:"ManagerName",
             message:"Team manager's name: "
@@ -125,9 +111,9 @@ inquirer
             message:"Office number: "
         }
     ])
-    .then((answers)=>{
+    .then((answers)=>{//once answered, the answers are added to the end of the table
         CollectedInfo.push(new Manager(answers.ManagerName,answers.ManagerNumber,answers.ManagerEmail,answers.OfficeNumber))
-        function AskQuestions(){
+        function AskQuestions(){//A function for asking intern/engineer questions. Should the user want to add more, this function is simple recalled
             inquirer
                 .prompt([
                     {
@@ -165,7 +151,7 @@ inquirer
                             ])
                             .then((answers2)=>{
                                 CollectedInfo.push(new Engineer(answers2.EngineerName,answers2.EngineerId,answers2.EngineerEmail,answers2.EngineerGithub))
-                                AskQuestions()
+                                AskQuestions()//recall question after inserting data at the end of array
                             })
                             .catch((err)=>{
                                 console.log(err)
@@ -199,11 +185,7 @@ inquirer
                                 console.log(err)
                             })
                     }else{
-                        //Rest of code
-                        // for (var x=0;x<CollectedInfo.length;x++){
-
-                        //     HTMLHead.concat()
-                        // }
+                        //Once user has inputed finish, it will loop through all entries given and create a body html string with the inserted info
                         var HTMLBody=``
                         for (var x=0;x<CollectedInfo.length;x++){
                             HTMLBody=HTMLBody+`
@@ -224,7 +206,9 @@ inquirer
                                 </div>
                             `
                         }
+                        //once the loop is finish, it will stitch together the head, body, and tail of the HTML
                         var FinishedHtml=HTMLHead+HTMLBody+HTMLTail
+                        //finally, the FinishedHTML is written to an HTML document called EmployeeChart.html within Distribution
                         fs.writeFile("./Distribution/EmployeeChart.html",FinishedHtml,(err)=>{
                             err ? console.error(err) : console.log(`HTML CREATED`)
                         })
@@ -236,9 +220,10 @@ inquirer
         }
         AskQuestions()
     })
-    .catch((err)=>{
+    .catch((err)=>{s
         console.error(err)
     });
+////////////////// EXPORT PROJECT //////////////////
 module.exports.Employee=Employee
 module.exports.Manager=Manager
 module.exports.Engineer=Engineer
